@@ -20,6 +20,7 @@ function boilerplate (parameter) {
   var $keywords           = config['keywords'];
   var $author             = config['author'];
   var $website            = config['website'];
+  var $style              = config['style'];
 
   if (parameter) {
     $title                = parameter.title       || $title;
@@ -27,6 +28,7 @@ function boilerplate (parameter) {
     $keywords             = parameter.keywords    || $keywords;
     $author               = parameter.author      || $author;
     $website              = parameter.website     || $website;
+    $style                = parameter.style       || $style;
   }
 
   var title               = ['<title>'+$title+'</title>'];
@@ -65,8 +67,7 @@ function boilerplate (parameter) {
     '<link rel="icon" type="image/png" href="SOURCE/reinventingengagement.png">'
   ];
   var style               = [
-    // '<link rel="stylesheet" type="text/css" href="'+$style+'" />'
-    '<link rel="stylesheet" type="text/css" href="bundle.css" />'
+    '<link rel="stylesheet" type="text/css" href="' + $style + '" />'
   ];
   var head = title.concat(meta)/*.concat(og).concat(icon)*/.concat(style);
 

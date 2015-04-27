@@ -1,6 +1,6 @@
 {
   "name": "webpage",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Webpage Boilerplate Component",
   "main": "SOURCE/index.js",
   "scripts": {
