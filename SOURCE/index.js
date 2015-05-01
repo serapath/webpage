@@ -22,6 +22,9 @@ function boilerplate (parameter) {
   var $website            = config['website'];
   var $style              = config['style'];
 
+  var $logoURL            = undefined;
+  var $googleAnalytics    = undefined;
+
   if (parameter) {
     $title                = parameter.title       || $title;
     $description          = parameter.description || $description;
@@ -29,6 +32,9 @@ function boilerplate (parameter) {
     $author               = parameter.author      || $author;
     $website              = parameter.website     || $website;
     $style                = parameter.style       || $style;
+
+    $logoURL              = parameter.logoURL     || $logoURL;
+    $googleAnalytics      = parameter.ga          || $googleAnalytics;
   }
 
   var title               = ['<title>'+$title+'</title>'];
@@ -46,7 +52,7 @@ function boilerplate (parameter) {
     '<meta property="og:site_name" content="'+$title+'" />',
     '<meta property="og:url" content="'+$website+'" />',
     '<meta property="og:description" content="'+$description+'" />',
-    '<meta property="og:image" content="pic/issuing_an_asset.gif" />',
+    '<meta property="og:image" content="'+$logoURL+'" />',
   ];
   var icon                = [ // check item generator
     '<link rel="apple-touch-icon" sizes="57x57" href="logo/favicon/apple-touch-icon-57x57.png">',
@@ -69,12 +75,31 @@ function boilerplate (parameter) {
   var style               = [
     '<link rel="stylesheet" type="text/css" href="' + $style + '" />'
   ];
-  var head = title.concat(meta)/*.concat(og).concat(icon)*/.concat(style);
+  var google              = $googleAnalytics ? [
+    "<script>",
+      "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){",
+      "(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),",
+      "m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)",
+      "})(window,document,'script','//www.google-analytics.com/analytics.js','ga');",
+      "ga('create', '" + $googleAnalytics + "', 'auto');",
+      "ga('send', 'pageview');",
+    "</script>"]
+    :[];
+
+
+  var head    = title.concat(meta).concat(og)/*.concat(icon)*/.concat(style);
+  var body    = google/*.concat(...)*/;
 
   var htmlTag = document.querySelector('html');
   var headTag = document.querySelector('head');
+  var bodyTag = document.querySelector('body');
+
   htmlTag.setAttribute('lang','en');
   headTag.innerHTML = head.join('');
 
-  return document.querySelector('body');
+  var tmp, temp = document.createElement('div');
+  temp.innerHTML = body.join('');
+  while (tmp = temp.childNodes[0]) { bodyTag.appendChild(tmp); }
+
+  return bodyTag;
 };
